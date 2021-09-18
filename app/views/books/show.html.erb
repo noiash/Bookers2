@@ -1,0 +1,10 @@
+<div>
+
+  <%= link_to book_path(@book.id) do %>
+  <p>book名：<%= @book.title %></p>
+  <% end %>
+  <p>説明：<%= @book.body %></p>
+  <% if @book.user == current_user %>
+    <%= link_to "Destroy", book_path(@book), method: :delete %>
+  <% end %>
+</div>
