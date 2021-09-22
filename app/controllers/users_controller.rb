@@ -3,8 +3,12 @@ class UsersController < ApplicationController
   def create
     @book = Book.new(book_params)
     @book.user_id = current_user.id
-    @book.save
-    redirect_to book_path(@book.id)
+    if @book.save
+       redirect_to book_path(@book.id), notice: 'You have created book successfully.'
+    else
+      @users = User.all
+      render :index
+    end
   end
 
   def index
@@ -25,13 +29,16 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.update(user_params)
-    redirect_to user_path
+    if @user.update(user_params)
+      redirect_to user_path(@user), notice: 'You have updated user successfully.'
+    else
+      render :edit
+    end
   end
 
    private
 
   def user_params
-    params.require(:user).permit(:title, :body, :profile_image, :name)
+    params.require(:user).permit(:title, :body, :profile_image, :name, :introduction)
   end
 end
