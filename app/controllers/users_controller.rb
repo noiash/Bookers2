@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+
   before_action :correct_user, only: [:edit, :update]
 
   def create
@@ -22,7 +24,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
-    if @user. == current_user
+    if @user == current_user
       render :edit
     else
       redirect_to user_path
@@ -49,7 +51,7 @@ class UsersController < ApplicationController
   def correct_user
     @user = User.find(params[:id])
     if current_user != @user
-    redirect_to user_path(current_user.id)
+    redirect_to user_path(current_user)
     end
   end
 
